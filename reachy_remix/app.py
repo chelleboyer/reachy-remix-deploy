@@ -1408,13 +1408,11 @@ class ReachyRemix(ReachyMiniApp):
     """Reachy Mini App wrapper for Reachy Remix.
     
     Gradio-based motion builder interface.
-    Dashboard button opens port 7900, which proxies to Gradio on 7901.
+    Dashboard will assign a port dynamically and open the Gradio UI.
     """
     
-    # Must be set as class attribute for Dashboard to create the gear button
-    # Port 7900: FastAPI settings app (started by base class)
-    # Port 7901: Gradio app (started by our run() method)
-    custom_app_url: str | None = "http://127.0.0.1:7900"
+    # Don't set custom_app_url - let the system assign ports dynamically
+    # The Dashboard will automatically create the gear button to open the Gradio UI
     
     def run(self, reachy_mini: ReachyMini, stop_event: threading.Event):
         """Run the Reachy Remix Gradio app."""
@@ -1443,21 +1441,19 @@ class ReachyRemix(ReachyMiniApp):
             )
             monitor_thread.start()
             
-            # Use port 7901 (matches custom_app_url)
-            port = 7901
+            # Let Gradio find an available port automatically (starting from 7860)
+            port = None
             
             print("=" * 60)
-            print(f"🚀 Launching Gradio server on port {port}...")
-            print(f"📍 OPEN REACHY REMIX UI AT: http://localhost:{port}")
-            print(f"   (From another device: http://<robot-ip>:{port})")
+            print(f"🚀 Launching Gradio server (port will be assigned automatically)...")
             print("=" * 60)
             
             app.queue()  # Enable queue for better concurrency
             
             # Launch Gradio with prevent_thread_lock=True so it runs in background
+            # Let Gradio auto-assign port by not specifying server_port
             local_url, share_url, _ = app.launch(
                 server_name="0.0.0.0",
-                server_port=port,
                 share=False,
                 prevent_thread_lock=True,  # Don't block - run in background
                 show_error=True,
