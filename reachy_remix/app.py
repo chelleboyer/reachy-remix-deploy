@@ -30,7 +30,7 @@ try:
     from reachy_mini.motion.recorded_move import RecordedMoves
     SDK_AVAILABLE = True
 except ImportError:
-    print("⚠️  Reachy SDK not available - running in demo mode")
+    print("WARNING: Reachy SDK not available - running in demo mode")
     SDK_AVAILABLE = False
     RecordedMoves = None
 
@@ -527,9 +527,9 @@ class MotionEngine:
         if not self.demo_mode and SDK_AVAILABLE:
             try:
                 self.recorded_moves = RecordedMoves("pollen-robotics/reachy-mini-dances-library")
-                print(f"✅ Loaded {len(self.recorded_moves.list_moves())} dance moves from SDK")
+                print(f"Loaded {len(self.recorded_moves.list_moves())} dance moves from SDK")
             except Exception as e:
-                print(f"⚠️  Could not load recorded moves: {e}")
+                print(f"WARNING: Could not load recorded moves: {e}")
                 self.recorded_moves = None
 
     
@@ -637,7 +637,7 @@ class MotionEngine:
         """
         moves_completed = 0
         self.should_stop = False  # Reset stop flag
-        print(f"\n▶️  Executing sequence: {len(sequence)} moves")
+        print(f"\nExecuting sequence: {len(sequence)} moves")
         
         try:
             for i, move_id in enumerate(sequence):
@@ -695,7 +695,7 @@ class MotionEngine:
                 # Inter-move delay
                 time.sleep(0.5)
             
-            print(f"✅ Sequence complete: {moves_completed} moves\n")
+            print(f"Sequence complete: {moves_completed} moves\n")
             # Yield completion (index -1 or len)
             yield -1, ExecutionResult(
                 success=True,
@@ -1416,18 +1416,18 @@ class ReachyRemix(ReachyMiniApp):
         import traceback
         import signal
         
-        print("🎵 Starting Reachy Remix - Motion Builder")
+        print("Starting Reachy Remix - Motion Builder")
         
         try:
             # Create Gradio app with the provided reachy_mini instance
-            print("🎨 Creating Gradio app with robot connection...")
+            print("Creating Gradio app with robot connection...")
             app = create_app(robot=reachy_mini, controller=None)
-            print("✅ Gradio app created with robot connection")
+            print("Gradio app created with robot connection")
             
             # Set up a way to stop Gradio when stop_event is set
             def check_stop_event():
                 if stop_event.is_set():
-                    print("🛑 Stop event detected, closing Gradio...")
+                    print("Stop event detected, closing Gradio...")
                     app.close()
             
             # Monitor stop_event in a separate thread
@@ -1442,7 +1442,7 @@ class ReachyRemix(ReachyMiniApp):
             port = None
             
             print("=" * 60)
-            print(f"🚀 Launching Gradio server (port will be assigned automatically)...")
+            print(f"Launching Gradio server (port will be assigned automatically)...")
             print("=" * 60)
             
             app.queue()  # Enable queue for better concurrency
@@ -1459,19 +1459,19 @@ class ReachyRemix(ReachyMiniApp):
             )
             
             print("=" * 60)
-            print(f"✅ Gradio server running at: {local_url}")
-            print(f"📱 The Reachy Mini Dashboard will automatically detect this port")
+            print(f"Gradio server running at: {local_url}")
+            print(f"The Reachy Mini Dashboard will automatically detect this port")
             print("=" * 60)
             
             # Now wait for stop_event instead of blocking on launch
             stop_event.wait()
             
-            print("🛑 Stopping Gradio server...")
+            print("Stopping Gradio server...")
             app.close()
-            print("✅ Gradio server has shut down")
+            print("Gradio server has shut down")
             
         except Exception as e:
-            print(f"❌ Fatal error in Reachy Remix: {e}")
+            print(f"ERROR: Fatal error in Reachy Remix: {e}")
             traceback.print_exc()
             raise
 
@@ -1481,9 +1481,9 @@ class ReachyRemix(ReachyMiniApp):
 # ============================================================
 
 if __name__ == "__main__":
-    print("🎵 Reachy Remix - Motion Builder")
+    print("Reachy Remix - Motion Builder")
     print("=" * 50)
-    print("Sprint Status: Story 1 ✅ | Story 2 🚧")
+    print("Sprint Status: Story 1 DONE | Story 2 IN PROGRESS")
     
     # Initialize robot connection (optional)
     robot = None
@@ -1512,9 +1512,9 @@ if __name__ == "__main__":
         daemon_running, pid = is_daemon_running()
         
         if daemon_running:
-            print(f"✅ Daemon is already running (PID: {pid})")
+            print(f"Daemon is already running (PID: {pid})")
         else:
-            print("⚠️  Reachy daemon not running - starting daemon...")
+            print("WARNING: Reachy daemon not running - starting daemon...")
             try:
                 # Spawn the daemon as a background process
                 subprocess.Popen(
@@ -1523,17 +1523,17 @@ if __name__ == "__main__":
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL
                 )
-                print("🚀 Daemon started - waiting for initialization...")
+                print("Daemon started - waiting for initialization...")
                 time.sleep(3)  # Give daemon time to initialize
                 
                 # Verify daemon started successfully
                 daemon_running, pid = is_daemon_running()
                 if daemon_running:
-                    print(f"✅ Daemon running successfully (PID: {pid})")
+                    print(f"Daemon running successfully (PID: {pid})")
                 else:
-                    print("⚠️  Daemon failed to start - continuing in DEMO mode")
+                    print("WARNING: Daemon failed to start - continuing in DEMO mode")
             except Exception as e:
-                print(f"⚠️  Failed to start daemon: {e}")
+                print(f"WARNING: Failed to start daemon: {e}")
                 print("Running in DEMO mode")
                 daemon_running = False
         
@@ -1544,14 +1544,14 @@ if __name__ == "__main__":
                 from reachy_mini import ReachyMini
                 robot = ReachyMini()
                 controller = None  # Not needed with direct ReachyMini API
-                print("✅ Robot connected!")
+                print("Robot connected!")
             except Exception as e:
-                print(f"⚠️  Robot not available: {e}")
+                print(f"WARNING: Robot not available: {e}")
                 print("Running in DEMO mode")
                 robot = None
                 controller = None
         else:
-            print("⚠️  Daemon not available - running in DEMO mode")
+            print("WARNING: Daemon not available - running in DEMO mode")
     else:
         print("Running in DEMO mode (SDK not installed)")
     

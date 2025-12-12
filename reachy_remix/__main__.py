@@ -5,10 +5,10 @@ from reachy_remix.app import create_app
 if __name__ == "__main__":
     import sys
     
-    print("🎵 Reachy Remix - Motion Builder")
+    print("Reachy Remix - Motion Builder")
     print("=" * 50)
     print("Running in standalone mode")
-    print("⚠️  For Reachy Mini app system, use the Dashboard")
+    print("WARNING: For Reachy Mini app system, use the Dashboard")
     print("=" * 50)
     
     # Initialize robot connection (optional)
@@ -19,7 +19,7 @@ if __name__ == "__main__":
         from reachy_mini.motion.recorded_move import RecordedMoves
         SDK_AVAILABLE = True
     except ImportError:
-        print("⚠️  Reachy SDK not available - running in demo mode")
+        print("WARNING: Reachy SDK not available - running in demo mode")
         SDK_AVAILABLE = False
     
     if SDK_AVAILABLE:
@@ -27,9 +27,9 @@ if __name__ == "__main__":
         try:
             from reachy_mini import ReachyMini
             robot = ReachyMini()
-            print("✅ Robot connected!")
+            print("Robot connected!")
         except Exception as e:
-            print(f"⚠️  Robot not available: {e}")
+            print(f"WARNING: Robot not available: {e}")
             print("Running in DEMO mode")
             robot = None
     else:
