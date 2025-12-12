@@ -1411,8 +1411,8 @@ class ReachyRemix(ReachyMiniApp):
     Dashboard will assign a port dynamically and open the Gradio UI.
     """
     
-    # Don't set custom_app_url - let the system assign ports dynamically
-    # The Dashboard will automatically create the gear button to open the Gradio UI
+    # This will be set dynamically after Gradio launches
+    custom_app_url: str | None = None
     
     def run(self, reachy_mini: ReachyMini, stop_event: threading.Event):
         """Run the Reachy Remix Gradio app."""
@@ -1460,6 +1460,13 @@ class ReachyRemix(ReachyMiniApp):
                 quiet=False,
                 inbrowser=False,
             )
+            
+            # Extract the port from the local_url and set custom_app_url
+            # local_url format: "http://0.0.0.0:7860" or similar
+            if local_url:
+                # Update the class attribute so Dashboard knows where to find us
+                self.custom_app_url = local_url.replace("0.0.0.0", "127.0.0.1")
+                print(f"✅ Set custom_app_url to: {self.custom_app_url}")
             
             print("=" * 60)
             print(f"✅ Gradio server running at: {local_url}")
