@@ -1408,11 +1408,8 @@ class ReachyRemix(ReachyMiniApp):
     """Reachy Mini App wrapper for Reachy Remix.
     
     Gradio-based motion builder interface.
-    Dashboard will assign a port dynamically and open the Gradio UI.
+    The Reachy Mini system will automatically detect the Gradio port.
     """
-    
-    # This will be set dynamically after Gradio launches
-    custom_app_url: str | None = None
     
     def run(self, reachy_mini: ReachyMini, stop_event: threading.Event):
         """Run the Reachy Remix Gradio app."""
@@ -1461,16 +1458,9 @@ class ReachyRemix(ReachyMiniApp):
                 inbrowser=False,
             )
             
-            # Extract the port from the local_url and set custom_app_url
-            # local_url format: "http://0.0.0.0:7860" or similar
-            if local_url:
-                # Update the class attribute so Dashboard knows where to find us
-                self.custom_app_url = local_url.replace("0.0.0.0", "127.0.0.1")
-                print(f"✅ Set custom_app_url to: {self.custom_app_url}")
-            
             print("=" * 60)
             print(f"✅ Gradio server running at: {local_url}")
-            print(f"📱 Access from browser or mobile device!")
+            print(f"📱 The Reachy Mini Dashboard will automatically detect this port")
             print("=" * 60)
             
             # Now wait for stop_event instead of blocking on launch
