@@ -1568,10 +1568,9 @@ if __name__ == "__main__":
     # Create app with robot connection
     app = create_app(robot=robot, controller=controller)
     
-    # Launch Gradio app
+    # Launch Gradio app (auto-assign port in standalone mode too)
     app.launch(
         server_name="0.0.0.0",  # Accessible on network
-        server_port=7860,
         share=False,  # Local only for security
         inbrowser=True,  # Auto-open browser
         show_error=True,
