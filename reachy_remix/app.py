@@ -24,6 +24,10 @@ import time
 import sys
 import shutil
 from pathlib import Path
+import os
+import logging
+import signal
+import subprocess
 
 # Motion Engine + SDK Integration
 try:
@@ -37,6 +41,12 @@ except ImportError:
 # Legacy wrapper classes (not needed when running through ReachyMiniApp)
 ReachyWrapper = None
 SafeMotionController = None
+
+LOG = logging.getLogger("reachy_remix")
+logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
+
+# Daemon executable path. Prefer env var, otherwise rely on PATH.
+DAEMON_PATH = os.getenv("REACHY_DAEMON_PATH", "reachy-mini-daemon")
 
 
 # ============================================================
@@ -600,14 +610,14 @@ class MotionEngine:
         Args:
             move_id: Move identifier that was just executed
         """
-        if self.demo_mode:
+        if self.demo_mode or not self.controller or not self.robot:
             return
         
         try:
             # Subtle head nod as acknowledgment
             self.controller.nod_yes(self.robot, count=1, speed=2.0)
         except Exception as e:
-            print(f"[WARN] Micro-feedback failed: {e}")
+            LOG.warning("Micro-feedback failed: %s", e)
     
     def execute_sequence(self, sequence: List[str], with_feedback: bool = True) -> ExecutionResult:
         """Execute a full sequence of moves.
@@ -1119,7 +1129,7 @@ def create_app(robot=None, controller=None):
             sequence_builder.format_sequence(-1),
             status,
             gr.update(value="▶️ Play Sequence", interactive=True),
-            gr.update(interactive=True), # undo enabled
+            gr.update(interactive=len(sequence_builder.moves) > 0), # undo only if moves exist
             gr.update(interactive=True), # clear enabled
             gr.update(interactive=False) # stop disabled
         )
@@ -1167,25 +1177,22 @@ def create_app(robot=None, controller=None):
     
     # Daemon control helpers
     def is_daemon_running() -> tuple[bool, int | None]:
-        """Check if reachy-mini-daemon is running."""
-        import psutil
+        """Check if reachy-mini-daemon is running.
+        If psutil isn't installed, we treat as "unknown/not running" instead of crashing.
+        """
+        try:
+            import psutil  # type: ignore
+        except Exception:
+            return False, None
+
         for proc in psutil.process_iter(["pid", "name", "cmdline"]):
             try:
                 cmdline = proc.info.get("cmdline") or []
-                for cmd in cmdline:
-                    if "reachy-mini-daemon" in cmd:
-                        return True, proc.pid
+                if any("reachy-mini-daemon" in str(arg) for arg in cmdline):
+                    return True, proc.pid
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                 continue
         return False, None
-    
-    def get_daemon_status():
-        """Get current daemon status for UI initialization."""
-        daemon_running, pid = is_daemon_running()
-        if daemon_running:
-            return "⏹️ Stop Daemon", f'<div class="alert alert-success">✅ Daemon running (PID: {pid})</div>'
-        else:
-            return "🚀 Start Daemon", '<div class="alert alert-warning">⚠️ Daemon not running</div>'
     
     def on_settings_toggle(settings_visible):
         """Toggle settings panel visibility."""
@@ -1193,68 +1200,7 @@ def create_app(robot=None, controller=None):
         new_visibility = not settings_visible
         return gr.update(visible=new_visibility)
     
-    def on_daemon_toggle():
-        """Toggle daemon on/off."""
-        import subprocess
-        import time
-        import os
-        
-        daemon_running, pid = is_daemon_running()
-        
-        if daemon_running:
-            # Stop the daemon - stop any playback first, then put robot to sleep
-            try:
-                # If robot is currently playing, stop it first
-                if app_state.can_stop():
-                    print("[DAEMON] Stopping current playback before daemon shutdown...")
-                    motion_engine.stop_playback()
-                    app_state.stop_playing()
-                    time.sleep(0.5)  # Give time for playback to stop
-                
-                # Connect to robot and perform sleep sequence
-                if SDK_AVAILABLE:
-                    try:
-                        from reachy_mini import ReachyMini
-                        print("[DAEMON] Putting robot to sleep before shutdown...")
-                        temp_robot = ReachyMini()
-                        # Robot will automatically go to compliant mode
-                        print("[DAEMON] Robot set to compliant mode")
-                    except Exception as robot_error:
-                        print(f"[DAEMON] Could not perform sleep: {robot_error}")
-                
-                # Now stop the daemon
-                os.kill(pid, 9)
-                time.sleep(0.5)
-                status = '<div class="alert alert-warning">⏹️ Daemon stopped</div>'
-                button_text = "🚀 Start Daemon"
-                print(f"[DAEMON] Stopped daemon (PID: {pid})")
-            except Exception as e:
-                status = f'<div class="alert alert-danger">❌ Failed to stop: {e}</div>'
-                button_text = "⏹️ Stop Daemon"
-        else:
-            # Start the daemon
-            try:
-                subprocess.Popen(
-                    [DAEMON_PATH],
-                    start_new_session=True,
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL
-                )
-                time.sleep(2)
-                daemon_running, pid = is_daemon_running()
-                if daemon_running:
-                    status = f'<div class="alert alert-success">✅ Daemon started (PID: {pid})</div>'
-                    button_text = "⏹️ Stop Daemon"
-                    print(f"[DAEMON] Started daemon (PID: {pid})")
-                else:
-                    status = '<div class="alert alert-danger">❌ Failed to start daemon</div>'
-                    button_text = "🚀 Start Daemon"
-            except Exception as e:
-                status = f'<div class="alert alert-danger">❌ Failed to start: {e}</div>'
-                button_text = "🚀 Start Daemon"
-        
-        return button_text, status
-    
+ 
     with gr.Blocks(title="🧪 Reachy Mini Lab") as app:
         
         # Inject custom CSS
@@ -1502,9 +1448,8 @@ if __name__ == "__main__":
             for proc in psutil.process_iter(["pid", "name", "cmdline"]):
                 try:
                     cmdline = proc.info.get("cmdline") or []
-                    for cmd in cmdline:
-                        if "reachy-mini-daemon" in cmd:
-                            return True, proc.pid
+                    if any("reachy-mini-daemon" in str(arg) for arg in cmdline):
+                        return True, proc.pid
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     continue
             return False, None
