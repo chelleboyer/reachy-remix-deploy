@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Reachy Remix - Motion Builder for Reachy Mini
+Reachy Mini Remix - Motion Builder for Reachy Mini
 
 A kid-friendly interface for building and executing dance sequences using
 tap-to-add blocks. Single-file deployment with Gradio UI.
@@ -1230,7 +1230,7 @@ def create_app(robot=None, controller=None):
                 gr.HTML('<div style="font-size: 0.75em; opacity: 0.9; padding: 3px; color: white;">Switch between Reachy apps</div>')
             with gr.Column(scale=2):
                 # Status info (daemon controlled by main Dashboard)
-                gr.HTML('<div style="font-size: 0.9em; opacity: 0.8; padding: 8px; color: white;">🤖 Reachy Remix Motion Builder</div>')
+                gr.HTML('<div style="font-size: 0.9em; opacity: 0.8; padding: 8px; color: white;">Reachy Mini Remix Motion Builder</div>')
             with gr.Column(scale=1):
                 # Theme selector
                 theme_selector = gr.Dropdown(
