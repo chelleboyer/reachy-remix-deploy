@@ -2,11 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reachy Remix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reachy Remix - Motion Builder for Reachy Mini</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Reachy Remix</h1>
-    <p>This app should be accessed through the Reachy Mini Dashboard.</p>
-    <p>Go to <a href="http://localhost:8000">http://localhost:8000</a> to launch the app.</p>
+    <div class="container">
+        <header>
+            <h1>Reachy Mini Remix</h1>
+            <p class="tagline">Motion Builder for Reachy Mini</p>
+        </header>
+
+        <section class="hero">
+            <p class="description">
+                Build dance sequences with tap-to-add blocks! A kid-friendly Gradio interface 
+                for creating choreographies using 18 pre-recorded moves from the Reachy Mini SDK.
+            </p>
+        </section>
+
+        <section class="installation">
+            <h2>📦 Installation</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3>1. Access Dashboard</h3>
+                    <p>On your Reachy Mini robot, open the dashboard:</p>
+                    <code>http://&lt;your-robot-ip&gt;:8000</code>
+                </div>
+                <div class="step">
+                    <h3>2. Install from Hugging Face</h3>
+                    <p>Click "[Install]"</p>
+                </div>
+                <div class="step">
+                    <h3>3. Launch & Create</h3>
+                    <p>Click "Run" on the app card, then click ⚙️ to open the interface</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>✨ Features</h2>
+            <ul>
+                <li><strong>Easy Block Building:</strong> Tap move buttons to add them to your sequence</li>
+                <li><strong>20+ Dance Moves:</strong> Full access to the Reachy Mini SDK dance library</li>
+                <li><strong>Instant Playback:</strong> Watch Reachy perform with smooth transitions</li>
+                <li><strong>Beautiful Themes:</strong> 26 TTKBootstrap-inspired themes to choose from</li>
+                <li><strong>Save & Load:</strong> Store your favorite choreographies</li>
+            </ul>
+        </section>
+
+        <section class="moves">
+            <h2>💃 Available Moves</h2>
+            <p>Including: yeah_nod, no_head, spin, happy_ears, sad_head, wave, bow, look_around, and many more!</p>
+        </section>
+
+        <footer>
+            <p>
+                <a href="https://github.com/chelleboyer/reachy-remix-deploy" target="_blank">View on GitHub</a> | 
+                <a href="https://huggingface.co/spaces/chelleboyer/reachy_mini_remix" target="_blank">Hugging Face Space</a>
+            </p>
+            <p class="note">
+                <strong>Note:</strong> This is a Reachy Mini app. Install it through your robot's dashboard 
+                at <code>http://&lt;robot-ip&gt;:8000</code>
+            </p>
+        </footer>
+    </div>
 </body>
 </html>
