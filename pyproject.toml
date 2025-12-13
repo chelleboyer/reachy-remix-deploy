@@ -16,7 +16,7 @@ dependencies = [
 keywords = ["reachy-mini-app", "dance", "motion-builder", "kids"]
 
 [project.entry-points."reachy_mini_apps"]
-reachy-mini-remix = "reachy_mini_remix.main:ReachyRemix"
+reachy-mini-remix = "reachy_mini_remix.main:ReachyMiniRemix"
 
 [tool.setuptools.packages.find]
 where = ["."]

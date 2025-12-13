@@ -10,7 +10,7 @@ from reachy_mini import ReachyMini, ReachyMiniApp
 from .app import create_app
 
 
-class ReachyRemix(ReachyMiniApp):
+class ReachyMiniRemix(ReachyMiniApp):
     """Reachy Mini App wrapper for Reachy Remix.
     
     Gradio-based motion builder interface.
