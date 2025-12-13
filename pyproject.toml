@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "reachy-remix"
+name = "reachy-mini-remix"
 version = "0.1.0"
 description = "Motion builder for Reachy Mini - Build dance sequences with tap-to-add blocks"
 readme = "README.md"
@@ -16,11 +16,11 @@ dependencies = [
 keywords = ["reachy-mini-app", "dance", "motion-builder", "kids"]
 
 [project.entry-points."reachy_mini_apps"]
-reachy-remix = "reachy_remix:ReachyRemix"
+reachy-mini-remix = "reachy_mini_remix.main:ReachyRemix"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["reachy_remix*"]
+include = ["reachy_mini_remix*"]
 
 [tool.setuptools.package-data]
-reachy_remix = ["static/*", "static/**/*"]
+reachy_mini_remix = ["static/*", "static/**/*"]

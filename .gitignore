@@ -16,6 +16,7 @@ parts/
 sdist/
 var/
 wheels/
+reachy_mini/
 *.egg-info/
 .installed.cfg
 *.egg

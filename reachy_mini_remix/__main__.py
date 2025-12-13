@@ -1,6 +1,10 @@
-"""Entry point for running Reachy Remix as a module."""
+"""Entry point for running Reachy Remix as a module.
 
-from reachy_remix.app import create_app
+This is for standalone testing outside of the Reachy Mini Dashboard.
+For deployment, the app runs through the ReachyMiniApp interface via main.py
+"""
+
+from reachy_mini_remix.app import create_app
 
 if __name__ == "__main__":
     import sys
@@ -8,7 +12,7 @@ if __name__ == "__main__":
     print("Reachy Remix - Motion Builder")
     print("=" * 50)
     print("Running in standalone mode")
-    print("WARNING: For Reachy Mini app system, use the Dashboard")
+    print("WARNING: For production use, install via Dashboard")
     print("=" * 50)
     
     # Initialize robot connection (optional)
@@ -42,7 +46,7 @@ if __name__ == "__main__":
     # Create app with robot connection
     app = create_app(robot=robot, controller=controller)
     
-    # Launch Gradio app (auto-assign port in standalone mode)
+    # Launch Gradio app (standalone mode)
     app.launch(
         server_name="0.0.0.0",  # Accessible on network
         share=False,  # Local only for security
