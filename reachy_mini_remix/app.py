@@ -1200,7 +1200,7 @@ def create_app(robot=None, controller=None):
         return gr.update(visible=new_visibility)
     
  
-    with gr.Blocks(title="🧪 Reachy Mini Lab") as app:
+    with gr.Blocks(title="🧪 Reachy Mini Remix") as app:
         
         # Inject custom CSS
         css_element = gr.HTML(f"<style id='custom-theme-style'>{custom_css}</style>")
@@ -1211,7 +1211,7 @@ def create_app(robot=None, controller=None):
         # Main Header with Settings
         with gr.Row(elem_classes=["compact-header"]):
             with gr.Column(scale=2):
-                gr.HTML('<h2>🧪 Reachy Mini Lab</h2>')
+                gr.HTML('<h2>🧪 Reachy Mini Remix</h2>')
                 gr.HTML('<p style="font-size: 0.9em; margin: 0; opacity: 0.9;">Have fun with Reachy Mini robot!</p>')
             with gr.Column(scale=1):
                 settings_toggle_btn = gr.Button("⚙️ Show Settings", size="sm", variant="secondary")
