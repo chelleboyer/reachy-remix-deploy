@@ -3,66 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reachy Remix - Motion Builder for Reachy Mini</title>
+    <title>Reachy Remix - Build Dance Routines for Your Reachy Mini Robot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Reachy Mini Remix</h1>
-            <p class="tagline">Motion Builder for Reachy Mini</p>
+            <div class="logo"><i class="fas fa-robot"></i></div>
+            <h1>Reachy Remix</h1>
+            <p class="tagline">Create Amazing Dance Routines for Your Robot</p>
         </header>
 
         <section class="hero">
             <p class="description">
-                Build dance sequences with tap-to-add blocks! A kid-friendly Gradio interface 
-                for creating choreographies using 18 pre-recorded moves from the Reachy Mini SDK.
+                Turn your Reachy Mini into a dancing star! Build custom choreographies by combining 
+                fun moves like head nods, waves, spins, and ear wiggles. Perfect for kids and 
+                beginners—no coding required!
             </p>
         </section>
 
-        <section class="installation">
-            <h2>📦 Installation</h2>
-            <div class="steps">
-                <div class="step">
-                    <h3>1. Access Dashboard</h3>
-                    <p>On your Reachy Mini robot, open the dashboard:</p>
-                    <code>http://&lt;your-robot-ip&gt;:8000</code>
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="icon"><i class="fas fa-hand-pointer"></i></div>
+                    <h3>Tap & Add</h3>
+                    <p>Click colorful move buttons to build your sequence—it's as easy as stacking blocks!</p>
                 </div>
-                <div class="step">
-                    <h3>2. Install from Hugging Face</h3>
-                    <p>Click "[Install]"</p>
+                <div class="step-card">
+                    <div class="icon"><i class="fas fa-palette"></i></div>
+                    <h3>Mix & Match</h3>
+                    <p>Combine over 20 different moves to create unique dance routines your way.</p>
                 </div>
-                <div class="step">
-                    <h3>3. Launch & Create</h3>
-                    <p>Click "Run" on the app card, then click ⚙️ to open the interface</p>
+                <div class="step-card">
+                    <div class="icon"><i class="fas fa-play-circle"></i></div>
+                    <h3>Watch & Share</h3>
+                    <p>Hit play and watch Reachy perform your choreography with smooth, lifelike movements!</p>
                 </div>
             </div>
         </section>
 
         <section class="features">
-            <h2>✨ Features</h2>
-            <ul>
-                <li><strong>Easy Block Building:</strong> Tap move buttons to add them to your sequence</li>
-                <li><strong>20+ Dance Moves:</strong> Full access to the Reachy Mini SDK dance library</li>
-                <li><strong>Instant Playback:</strong> Watch Reachy perform with smooth transitions</li>
-                <li><strong>Beautiful Themes:</strong> 26 TTKBootstrap-inspired themes to choose from</li>
-                <li><strong>Save & Load:</strong> Store your favorite choreographies</li>
-            </ul>
+            <h2>What You Can Do</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-puzzle-piece"></i></div>
+                    <h3>Easy Building</h3>
+                    <p>Drag-and-drop style interface anyone can use</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-theater-masks"></i></div>
+                    <h3>Express Yourself</h3>
+                    <p>Create happy dances, silly moves, or dramatic performances</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-swatchbook"></i></div>
+                    <h3>Choose Themes</h3>
+                    <p>Pick from colorful themes to match your style</p>
+                </div>
+            </div>
         </section>
 
-        <section class="moves">
-            <h2>💃 Available Moves</h2>
-            <p>Including: yeah_nod, no_head, spin, happy_ears, sad_head, wave, bow, look_around, and many more!</p>
+        <section class="moves-showcase">
+            <h2>Popular Moves</h2>
+            <div class="moves-list">
+                <span class="move-tag"><i class="fas fa-hand-paper"></i> Wave</span>
+                <span class="move-tag"><i class="fas fa-person-praying"></i> Bow</span>
+                <span class="move-tag"><i class="fas fa-smile"></i> Happy Nod</span>
+                <span class="move-tag"><i class="fas fa-spinner"></i> Spin</span>
+                <span class="move-tag"><i class="fas fa-volume-high"></i> Wiggle Ears</span>
+                <span class="move-tag"><i class="fas fa-face-sad-tear"></i> Sad Head</span>
+                <span class="move-tag"><i class="fas fa-binoculars"></i> Look Around</span>
+                <span class="move-tag"><i class="fas fa-star"></i> And 13+ More!</span>
+            </div>
+        </section>
+
+        <section class="get-started">
+            <h2>Get Started</h2>
+            <p class="install-note">
+                Install this app from your Reachy Mini dashboard and start creating right away!
+            </p>
+            <div class="cta-button">
+                <i class="fas fa-rocket"></i> Open Your Robot Dashboard
+            </div>
         </section>
 
         <footer>
-            <p>
-                <a href="https://github.com/chelleboyer/reachy-remix-deploy" target="_blank">View on GitHub</a> | 
-                <a href="https://huggingface.co/spaces/chelleboyer/reachy_mini_remix" target="_blank">Hugging Face Space</a>
-            </p>
-            <p class="note">
-                <strong>Note:</strong> This is a Reachy Mini app. Install it through your robot's dashboard 
-                at <code>http://&lt;robot-ip&gt;:8000</code>
+            <p class="made-with">Made with <i class="fas fa-heart"></i> for Reachy Mini robots</p>
+            <p class="links">
+                <a href="https://github.com/chelleboyer/reachy-remix-deploy" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
             </p>
         </footer>
     </div>

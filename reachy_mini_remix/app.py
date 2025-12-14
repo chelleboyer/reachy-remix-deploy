@@ -11,7 +11,7 @@ Architecture:
 - Engine Layer: Motion execution via Reachy SDK
 - Hardware Layer: ReachyWrapper + SafeMotionController
 
-Author: Reachy Dev Team
+Author: Dev Team
 Date: December 6, 2025
 Sprint: Story 1 - UI Shell + Theme
 """
