@@ -33,9 +33,13 @@ class ReachyMiniRemix(ReachyMiniApp):
         import sys
         import logging
         import time
+        import tempfile
+        import os
         
         # CRITICAL: Test if run() is even being called
-        with open("/tmp/reachy-remix-debug.log", "w") as f:
+        # Use temp directory that works on both Linux and Windows
+        debug_log = os.path.join(tempfile.gettempdir(), "reachy-remix-debug.log")
+        with open(debug_log, "w") as f:
             f.write("RUN METHOD CALLED!\n")
             f.flush()
         
