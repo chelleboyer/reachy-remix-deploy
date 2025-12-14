@@ -16,8 +16,8 @@ class ReachyMiniRemix(ReachyMiniApp):
     The Reachy Mini system will automatically detect the Gradio port.
     """
     
-    # This will be set dynamically after Gradio launches
-    custom_app_url: str | None = None
+    # Default Gradio port - gear icon will point here
+    custom_app_url: str | None = "http://localhost:7860"
     
     def run(self, reachy_mini: ReachyMini, stop_event: threading.Event):
         """Run the Reachy Remix Gradio app.
@@ -119,3 +119,11 @@ class ReachyMiniRemix(ReachyMiniApp):
             logger.info("=" * 60)
             logger.info("REACHY REMIX APP EXITING")
             logger.info("=" * 60)
+
+
+if __name__ == "__main__":
+    app = ReachyMiniRemix()
+    try:
+        app.wrapped_run()
+    except KeyboardInterrupt:
+        app.stop_event.set()
