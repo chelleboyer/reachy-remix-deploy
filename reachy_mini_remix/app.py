@@ -1221,8 +1221,8 @@ def create_app(robot=None, controller=None):
             with gr.Column(scale=1):
                 # App Selector
                 app_selector = gr.Dropdown(
-                    choices=["🧪 Reachy Mini Lab", "🎤 More fun Reachy Mini apps coming soon!"],
-                    value="🧪 Reachy Mini Lab",
+                    choices=["🧪 Reachy Mini Remix", "🎤 More fun Reachy Mini apps coming soon!"],
+                    value="🧪 Reachy Mini Remix",
                     label="📱 Select App",
                     interactive=True,
                     container=False

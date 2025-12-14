@@ -18,6 +18,10 @@ class ReachyMiniRemix(ReachyMiniApp):
     
     # Default Gradio port - gear icon will point here
     custom_app_url: str | None = "http://localhost:7860"
+    # Don't start the ReachyMiniApp's FastAPI settings server - Gradio handles the web UI
+    dont_start_webserver: bool = True
+    # Request a media backend that doesn't require camera (we don't need video)
+    request_media_backend: str | None = "default_no_video"
     
     def run(self, reachy_mini: ReachyMini, stop_event: threading.Event):
         """Run the Reachy Remix Gradio app.
@@ -66,14 +70,12 @@ class ReachyMiniRemix(ReachyMiniApp):
             )
             monitor_thread.start()
             
-            logger.info("Setting up Gradio queue...")
-            app.queue()  # Enable queue for better concurrency
-            
             logger.info("Launching Gradio server (port will be auto-assigned)...")
             
             # Launch Gradio with prevent_thread_lock=True so it runs in background
             # Let Gradio auto-assign an available port (starts from 7860)
             # NOTE: With prevent_thread_lock=True, launch() returns the App object, not a tuple
+            app.queue(default_concurrency_limit=10)  # Enable queue with concurrency
             app.launch(
                 server_name="0.0.0.0",
                 share=False,
