@@ -1212,7 +1212,7 @@ def create_app(robot=None, controller=None):
         with gr.Row(elem_classes=["compact-header"]):
             with gr.Column(scale=2):
                 gr.HTML('<h2>🧪 Reachy Mini Lab</h2>')
-                gr.HTML('<p style="font-size: 0.9em; margin: 0; opacity: 0.9;">Create your own movement patterns</p>')
+                gr.HTML('<p style="font-size: 0.9em; margin: 0; opacity: 0.9;">Have fun with Reachy Mini robot!</p>')
             with gr.Column(scale=1):
                 settings_toggle_btn = gr.Button("⚙️ Show Settings", size="sm", variant="secondary")
         
