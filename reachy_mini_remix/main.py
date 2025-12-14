@@ -73,7 +73,8 @@ class ReachyMiniRemix(ReachyMiniApp):
             
             # Launch Gradio with prevent_thread_lock=True so it runs in background
             # Let Gradio auto-assign an available port (starts from 7860)
-            local_url, share_url, _ = app.launch(
+            # NOTE: With prevent_thread_lock=True, launch() returns the App object, not a tuple
+            app.launch(
                 server_name="0.0.0.0",
                 share=False,
                 prevent_thread_lock=True,  # Don't block - run in background
@@ -81,6 +82,10 @@ class ReachyMiniRemix(ReachyMiniApp):
                 quiet=False,
                 inbrowser=False,
             )
+            
+            # Get the actual local URL from the app's server
+            # Gradio stores it in app.local_url after launch
+            local_url = app.local_url if hasattr(app, 'local_url') else "http://localhost:7860"
             
             # Update the class property with the actual URL for the gear icon
             # Convert 0.0.0.0 to localhost for browser compatibility
