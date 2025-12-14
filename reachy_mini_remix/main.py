@@ -27,24 +27,25 @@ class ReachyMiniRemix(ReachyMiniApp):
             stop_event: Threading event to signal when the app should stop
         """
         import sys
-        import os
+        import logging
         
-        # Force unbuffered output
-        sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
-        sys.stderr = os.fdopen(sys.stderr.fileno(), 'w', buffering=1)
+        # Set up logging to help debug
+        logging.basicConfig(level=logging.INFO)
+        logger = logging.getLogger(__name__)
         
-        print("=" * 60, flush=True)
-        print("REACHY REMIX APP STARTING", flush=True)
-        print("=" * 60, flush=True)
+        logger.info("=" * 60)
+        logger.info("REACHY REMIX APP STARTING")
+        logger.info("=" * 60)
         
         try:
             # Import create_app here to avoid slow module loading at startup
+            logger.info("Importing create_app...")
             from .app import create_app
             
             # Create Gradio app with the provided reachy_mini instance
-            print("Creating Gradio app with robot connection...", flush=True)
+            logger.info("Creating Gradio app with robot connection...")
             app = create_app(robot=reachy_mini, controller=None)
-            print("Gradio app created with robot connection", flush=True)
+            logger.info("Gradio app created successfully")
             
             # Set up a way to stop Gradio when stop_event is set
             def check_stop_event():
@@ -59,14 +60,10 @@ class ReachyMiniRemix(ReachyMiniApp):
             )
             monitor_thread.start()
             
-            # Let Gradio find an available port automatically (starting from 7860)
-            port = None
-            
-            print("=" * 60)
-            print(f"Launching Gradio server (port will be assigned automatically)...")
-            print("=" * 60)
-            
+            logger.info("Setting up Gradio queue...")
             app.queue()  # Enable queue for better concurrency
+            
+            logger.info("Launching Gradio server (port will be auto-assigned)...")
             
             # Launch Gradio with prevent_thread_lock=True so it runs in background
             # Let Gradio auto-assign an available port (starts from 7860)
@@ -84,28 +81,26 @@ class ReachyMiniRemix(ReachyMiniApp):
             self.custom_app_url = local_url.replace("0.0.0.0", "localhost")
             type(self).custom_app_url = self.custom_app_url  # Update class attribute too
             
-            print("=" * 60, flush=True)
-            print(f"Gradio server running at: {local_url}", flush=True)
-            print(f"Dashboard gear icon (⚙️) will link to: {self.custom_app_url}", flush=True)
-            print("=" * 60, flush=True)
+            logger.info("=" * 60)
+            logger.info(f"Gradio server running at: {local_url}")
+            logger.info(f"Dashboard gear icon (⚙️) will link to: {self.custom_app_url}")
+            logger.info("=" * 60)
             
             # Keep the app running until stop_event is set
-            print("Waiting for stop signal...", flush=True)
+            logger.info("App is running. Waiting for stop signal...")
             stop_event.wait()
             
-            print("Stop signal received, shutting down Gradio server...", flush=True)
+            logger.info("Stop signal received, shutting down Gradio server...")
             app.close()
-            print("Gradio server has shut down", flush=True)
+            logger.info("Gradio server has shut down")
             
         except Exception as e:
-            print("=" * 60, flush=True)
-            print(f"ERROR: Fatal error in Reachy Remix: {e}", flush=True)
-            print("=" * 60, flush=True)
-            traceback.print_exc()
-            sys.stdout.flush()
-            sys.stderr.flush()
+            logger.error("=" * 60)
+            logger.error(f"FATAL ERROR in Reachy Remix: {e}")
+            logger.error("=" * 60)
+            logger.exception("Full traceback:")
             raise
         finally:
-            print("=" * 60, flush=True)
-            print("REACHY REMIX APP EXITING", flush=True)
-            print("=" * 60, flush=True)
+            logger.info("=" * 60)
+            logger.info("REACHY REMIX APP EXITING")
+            logger.info("=" * 60)
