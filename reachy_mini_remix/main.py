@@ -94,7 +94,11 @@ class ReachyMiniRemix(ReachyMiniApp):
             
             # Keep the app running until stop_event is set
             logger.info("App is running. Waiting for stop signal...")
-            stop_event.wait()
+            
+            # Use a while loop like the documentation shows, not stop_event.wait()
+            import time
+            while not stop_event.is_set():
+                time.sleep(0.1)
             
             logger.info("Stop signal received, shutting down Gradio server...")
             app.close()
