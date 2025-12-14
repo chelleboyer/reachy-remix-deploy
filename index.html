@@ -11,7 +11,7 @@
     <div class="container">
         <header>
             <div class="logo"><i class="fas fa-robot"></i></div>
-            <h1>Reachy Remix</h1>
+            <h1>Reachy Mini Remix</h1>
             <p class="tagline">Create Amazing Dance Routines for Your Robot</p>
         </header>
 
@@ -79,15 +79,20 @@
             </div>
         </section>
 
-        <section class="get-started">
-            <h2>Get Started</h2>
-            <p class="install-note">
-                Install this app from your Reachy Mini dashboard and start creating right away!
-            </p>
-            <div class="cta-button">
-                <i class="fas fa-rocket"></i> Open Your Robot Dashboard
-            </div>
-        </section>
+
+        <script>
+        function copyInstallCommand() {
+            const command = "reachy-mini-app-assistant install chelleboyer/reachy_mini_remix";
+            navigator.clipboard.writeText(command).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                }, 2000);
+            });
+        }
+        </script>
 
         <footer>
             <p class="made-with">Made with <i class="fas fa-heart"></i> for Reachy Mini robots</p>

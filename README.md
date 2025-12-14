@@ -14,7 +14,7 @@ tags:
  - kids
 ---
 
-# Reachy Remix
+# Reachy Mini Remix
 
 **Motion builder for Reachy Mini robots**
 
@@ -38,7 +38,7 @@ Choose from TTKBootstrap-inspired themes to customize your building experience.
 
 1. **Start the Daemon** - Ensure `reachy-mini-daemon` is running on your robot
 2. **Open Dashboard** - Navigate to `http://localhost:8000` (or your robot's IP)
-3. **Launch App** - Click "Run" on the Reachy Remix card
+3. **Launch App** - Click "Run" on the Reachy Mini Remix card
 4. **Open UI** - Click the gear button to open the Gradio interface
 5. **Build Your Dance** - Tap move buttons to add them to your sequence
 6. **Hit Play!** - Press the play button and watch Reachy perform your creation
